@@ -7,7 +7,7 @@ import (
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
 	"tfabd/app"
-	"tfabd/cmd/tfabdd/cmd"
+	"tfabd/cmd/tfabd/cmd"
 )
 
 func main() {

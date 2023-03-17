@@ -1,21 +1,31 @@
 version: 1
+build:
+  binary: tfabd
 accounts:
-- name: alice
+- name: main
   coins:
-  - 20000token
-  - 200000000stake
-- name: bob
-  coins:
-  - 10000token
-  - 100000000stake
-client:
-  openapi:
-    path: docs/static/openapi.yml
-faucet:
-  name: bob
-  coins:
-  - 5token
-  - 100000stake
+  - 10000000000000000tfab
+genesis:
+  app_state:
+    crisis:
+      constant_fee:
+        denom: tfab
+    evm:
+      params:
+        evm_denom: tfab
+    gov:
+      deposit_params:
+        min_deposit:
+        - amount: "1000000"
+          denom: tfab
+    mint:
+      params:
+        mint_denom: tfab
+    staking:
+      params:
+        bond_denom: tfab
+  chain_id: tokenfab-testnet
 validators:
-- name: alice
-  bonded: 100000000stake
+- name: main
+  bonded: 100000000000tfab
+  home: $HOME/.tfabd
