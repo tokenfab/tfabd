@@ -55,11 +55,11 @@ build_tags_comma_sep := $(subst $(empty),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=kar \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=tfab \
 		  -X github.com/cosmos/cosmos-sdk/version.AppName=tfabd\
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
-		  -X github.com/tokenfab/tfabd/app.Bech32Prefix=kar \
+		  -X github.com/tokenfab/tfabd/app.Bech32Prefix=tfab \
 		  -X github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)
 
 ifeq ($(WITH_CLEVELDB),yes)
@@ -77,18 +77,12 @@ all: install lint test
 
 build: go.sum
 ifeq ($(OS),Windows_NT)
+	$(error tfabd server not supported. Use "make build-windows-client" for client)
 	exit 1
 else
 	rm -rf $(BINDIR)/tfabd
 	go build -mod=readonly $(BUILD_FLAGS) -o build/tfabd -o $(BINDIR)/tfabd ./cmd/tfabd
-endif
-
-build-contract-tests-hooks:
-ifeq ($(OS),Windows_NT)
-	go build -mod=readonly $(BUILD_FLAGS) -o build/contract_tests.exe ./cmd/contract_tests
-else
-	go build -mod=readonly $(BUILD_FLAGS) -o build/contract_tests ./cmd/contract_tests
-endif
+endif 
 
 install: go.sum
 	go install -mod=readonly $(BUILD_FLAGS) ./cmd/tfabd
