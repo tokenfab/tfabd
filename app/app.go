@@ -202,6 +202,7 @@ var (
 				ibcclientclient.UpgradeProposalHandler,
 			},
 		),
+		distr.AppModuleBasic{},
 		params.AppModuleBasic{},
 		crisis.AppModuleBasic{},
 		slashing.AppModuleBasic{},
