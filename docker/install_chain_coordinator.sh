@@ -27,8 +27,7 @@ sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/' $CONFIG
 
 
 if ! tfabd keys show validator; then
-   wallet=$($(echo "$PASSWORD"; echo "$PASSWORD") | tfabd keys add validator)
-   echo $wallet
+   (echo "$PASSWORD"; echo "$PASSWORD") | tfabd keys add validator 
 fi
 # hardcode the validator account for this instance
 echo "$PASSWORD" | tfabd genesis add-genesis-account validator "10000000000000000$STAKE"
