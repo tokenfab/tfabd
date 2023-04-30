@@ -6,17 +6,29 @@ STAKE=${STAKE_TOKEN:-TFAB}
 FEE=${FEE_TOKEN:-uTFAB}
 CHAIN_ID=${CHAIN_ID:-tokenfab-testing}
 MONIKER=${MONIKER:-node001}
+FILENAME=${FILENAME:-"$HOME"/.tfabd/config/genesis.json}
+CONFIG=${FILENAME:-"$HOME"/.tfabd/config/config.toml}
 
 rm -rf ~/.tfabd
 
 tfabd init --chain-id "$CHAIN_ID" "$MONIKER"
 # staking/governance token is hardcoded in config, change this
-sed -i "s/\"stake\"/\"$STAKE\"/" "$HOME"/.tfabd/config/genesis.json
+sed -i "s/\"stake\"/\"$STAKE\"/" $FILENAME
 # this is essential for sub-1s block times (or header times go crazy)
-sed -i 's/"time_iota_ms": "1000"/"time_iota_ms": "10"/' "$HOME"/.tfabd/config/genesis.json
+if grep -F "time_iota_ms" $FILENAME
+then 
+    sed -i 's/"time_iota_ms": "1000"/"time_iota_ms": "10"/' $FILENAME
+else   
+   sed -i 's/"max_gas": "-1"/"time_iota_ms": "10"/' $FILENAME
+fi
+
+# making 1 sec block time.
+sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/' $CONFIG
+
 
 if ! tfabd keys show validator; then
-   (echo "$PASSWORD"; echo "$PASSWORD") | tfabd keys add validator
+   wallet=$($(echo "$PASSWORD"; echo "$PASSWORD") | tfabd keys add validator)
+   echo $wallet
 fi
 # hardcode the validator account for this instance
 echo "$PASSWORD" | tfabd genesis add-genesis-account validator "10000000000000000$STAKE"
