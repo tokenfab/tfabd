@@ -7,7 +7,7 @@ FEE=${FEE_TOKEN:-uTFAB}
 CHAIN_ID=${CHAIN_ID:-tokenfab-testnet}
 MONIKER=${MONIKER:-node001}
 FILENAME=${FILENAME:-"$HOME"/.tfabd/config/genesis.json}
-CONFIG=${FILENAME:-"$HOME"/.tfabd/config/config.toml}
+CONFIG=${CONFIG:-"$HOME"/.tfabd/config/config.toml}
 
 rm -rf ~/.tfabd
 
