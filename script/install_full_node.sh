@@ -43,14 +43,18 @@ PERSISTENT_PEERS=$(cat $PERSISTENT_PEERS_PATH)
 sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/' $CONFIG
 sed -i "s/persistent_peers = \"\"/persistent_peers = \"$PERSISTENT_PEERS\"/" $CONFIG
 
+echo "NOTICE !!!!!"
 
-if ! tfabd keys show validator; then
-   (echo "$PASSWORD"; echo "$PASSWORD") | tfabd keys add validator 
-fi
+echo "Chain is starting. Node will be synchronized with name " $MONIKER
+echo "Follow belowing step."
+echo "1. Execute create_wallet.sh to create wallet. Please backup your mnemonic words"
+echo "2. Execute create_validator.sh to become validator node."
 
-echo "!!!!!!!! store your mnemonic words. !!!!!!!!" 
-echo "transfer some coin to be a validator and then call create_validator.sh"
-echo "chain will be start in a few seconds."
-sleep 2
+echo "After chain start and being syched, then stop the program."
+echo 'Use "nohup tfabd start &" to run process at background. '
+echo "Enjoy !!!!!!!!!"
+
+sleep 5
+
 tfabd start
 
